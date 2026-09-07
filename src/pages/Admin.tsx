@@ -69,6 +69,68 @@ function useEditSection<K extends keyof SiteData>(key: K) {
   return [value, setValue] as const;
 }
 
+/** Save button with transient "Saved ✓ HH:MM" feedback — saves were silent. */
+function SaveButton({ onSave, className }: { onSave: () => void; className?: string }) {
+  const [savedAt, setSavedAt] = useState<number | null>(null);
+  useEffect(() => {
+    if (savedAt === null) return;
+    const timer = window.setTimeout(() => setSavedAt(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [savedAt]);
+  return (
+    <button
+      type="button"
+      className={className ?? "btn-primary px-4 py-2 text-sm"}
+      onClick={() => {
+        onSave();
+        setSavedAt(Date.now());
+      }}
+    >
+      {savedAt
+        ? `Saved ✓ ${new Date(savedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+        : "Save"}
+    </button>
+  );
+}
+
+/** Two-click inline confirm for destructive actions. Disarms after 3 s. */
+function DeleteButton({
+  onDelete,
+  label = "Delete",
+  className,
+}: {
+  onDelete: () => void;
+  label?: string;
+  className?: string;
+}) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (!armed) return;
+    const timer = window.setTimeout(() => setArmed(false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [armed]);
+  return (
+    <button
+      type="button"
+      className={
+        armed
+          ? "justify-self-start rounded-lg bg-red-500/15 px-3 py-2 text-sm font-semibold text-red-300"
+          : (className ?? "justify-self-start text-sm text-red-400")
+      }
+      onClick={() => {
+        if (armed) {
+          onDelete();
+          setArmed(false);
+        } else {
+          setArmed(true);
+        }
+      }}
+    >
+      {armed ? "Click again to confirm" : label}
+    </button>
+  );
+}
+
 function useAdminSession() {
   const [authed, setAuthed] = useState(() => {
     try {
@@ -311,13 +373,7 @@ function ProfileEditor() {
           </Field>
         ))}
       </div>
-      <button
-        type="button"
-        className="btn-primary mt-6"
-        onClick={() => saveSection("profile", draft)}
-      >
-        Save profile
-      </button>
+      <SaveButton className="btn-primary mt-6" onSave={() => saveSection("profile", draft)} />
     </div>
   );
 }
@@ -354,13 +410,7 @@ function ProjectsEditor() {
           >
             + Add
           </button>
-          <button
-            type="button"
-            className="btn-primary px-4 py-2 text-sm"
-            onClick={() => saveSection("projects", items)}
-          >
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("projects", items)} />
         </div>
       </div>
       {items.map((p) => (
@@ -404,13 +454,7 @@ function ProjectsEditor() {
               }
             />
           </Field>
-          <button
-            type="button"
-            className="justify-self-start text-sm text-red-400"
-            onClick={() => setItems(items.filter((x) => x.id !== p.id))}
-          >
-            Delete
-          </button>
+          <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== p.id))} />
         </div>
       ))}
     </div>
@@ -436,9 +480,7 @@ function ServicesEditor() {
           >
             + Add
           </button>
-          <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("services", items)}>
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("services", items)} />
         </div>
       </div>
       {items.map((s) => (
@@ -471,9 +513,7 @@ function ServicesEditor() {
               onChange={(e) => update(s.id, { tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
             />
           </Field>
-          <button type="button" className="justify-self-start text-sm text-red-400" onClick={() => setItems(items.filter((x) => x.id !== s.id))}>
-            Delete
-          </button>
+          <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== s.id))} />
         </div>
       ))}
     </div>
@@ -497,9 +537,7 @@ function TestimonialsEditor() {
           >
             + Add
           </button>
-          <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("testimonials", items)}>
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("testimonials", items)} />
         </div>
       </div>
       {items.map((t) => (
@@ -518,9 +556,7 @@ function TestimonialsEditor() {
               <input className="field" value={t.company} onChange={(e) => update(t.id, { company: e.target.value })} />
             </Field>
           </div>
-          <button type="button" className="justify-self-start text-sm text-red-400" onClick={() => setItems(items.filter((x) => x.id !== t.id))}>
-            Delete
-          </button>
+          <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== t.id))} />
         </div>
       ))}
     </div>
@@ -540,9 +576,7 @@ function StacksEditor() {
           <button type="button" className="btn-secondary px-4 py-2 text-sm" onClick={() => setItems([...items, { id: `s-${Date.now()}`, name: "", blurb: "" }])}>
             + Add
           </button>
-          <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("stacks", items)}>
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("stacks", items)} />
         </div>
       </div>
       {items.map((s) => (
@@ -553,9 +587,10 @@ function StacksEditor() {
           <Field label="Blurb">
             <input className="field" value={s.blurb} onChange={(e) => update(s.id, { blurb: e.target.value })} />
           </Field>
-          <button type="button" className="justify-self-start text-sm text-red-400 sm:col-span-2" onClick={() => setItems(items.filter((x) => x.id !== s.id))}>
-            Delete
-          </button>
+          <DeleteButton
+            className="justify-self-start text-sm text-red-400 sm:col-span-2"
+            onDelete={() => setItems(items.filter((x) => x.id !== s.id))}
+          />
         </div>
       ))}
     </div>
@@ -579,9 +614,7 @@ function GalleryEditor() {
           >
             + Add
           </button>
-          <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("gallery", items)}>
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("gallery", items)} />
         </div>
       </div>
       {items.map((g) => (
@@ -604,9 +637,10 @@ function GalleryEditor() {
               ))}
             </select>
           </Field>
-          <button type="button" className="justify-self-start text-sm text-red-400 sm:col-span-2" onClick={() => setItems(items.filter((x) => x.id !== g.id))}>
-            Delete
-          </button>
+          <DeleteButton
+            className="justify-self-start text-sm text-red-400 sm:col-span-2"
+            onDelete={() => setItems(items.filter((x) => x.id !== g.id))}
+          />
         </div>
       ))}
     </div>
@@ -626,9 +660,7 @@ function ExperienceEditor() {
           <button type="button" className="btn-secondary px-4 py-2 text-sm" onClick={() => setItems([...items, { id: `job-${Date.now()}`, role: "", company: "", period: "", location: "", highlights: [] }])}>
             + Add
           </button>
-          <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("experience", items)}>
-            Save
-          </button>
+          <SaveButton onSave={() => saveSection("experience", items)} />
         </div>
       </div>
       {items.map((job) => (
@@ -654,9 +686,7 @@ function ExperienceEditor() {
               onChange={(e) => update(job.id, { highlights: e.target.value.split("\n").map((l) => l.trim()).filter(Boolean) })}
             />
           </Field>
-          <button type="button" className="justify-self-start text-sm text-red-400" onClick={() => setItems(items.filter((x) => x.id !== job.id))}>
-            Delete
-          </button>
+          <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== job.id))} />
         </div>
       ))}
     </div>
@@ -671,16 +701,12 @@ function SkillsEditor() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-lg font-bold">Skill groups</h2>
-        <button
-          type="button"
-          className="btn-primary px-4 py-2 text-sm"
-          onClick={() => {
+        <SaveButton
+          onSave={() => {
             saveSection("skillGroups", groups);
             saveSection("sampleCode", code);
           }}
-        >
-          Save
-        </button>
+        />
       </div>
       {groups.map((g, gi) => (
         <div key={g.id} className="glass-card p-4 sm:p-6">
@@ -756,9 +782,7 @@ function ProcessEditor() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-lg font-bold">Process steps</h2>
-        <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("processSteps", items)}>
-          Save
-        </button>
+        <SaveButton onSave={() => saveSection("processSteps", items)} />
       </div>
       {items.map((s) => (
         <div key={s.n} className="glass-card grid gap-3 p-4 sm:grid-cols-2">
@@ -786,9 +810,7 @@ function StatsEditor() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-lg font-bold">Stats</h2>
-        <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => saveSection("stats", items)}>
-          Save
-        </button>
+        <SaveButton onSave={() => saveSection("stats", items)} />
       </div>
       {items.map((s, i) => (
         <div key={`${s.label}-${i}`} className="glass-card grid gap-3 p-4 sm:grid-cols-3">
@@ -838,10 +860,9 @@ function ContentEditor() {
       <Field label="Nav items (Label|#href, one per line)">
         <textarea className="field" rows={7} value={nav} onChange={(e) => setNav(e.target.value)} />
       </Field>
-      <button
-        type="button"
+      <SaveButton
         className="btn-primary justify-self-start"
-        onClick={() => {
+        onSave={() => {
           saveSection("toolChips", chips.split(",").map((s) => s.trim()).filter(Boolean));
           saveSection("terminalCommands", commands.split("\n").map((s) => s.trim()).filter(Boolean));
           saveSection(
@@ -856,9 +877,7 @@ function ContentEditor() {
               }),
           );
         }}
-      >
-        Save content
-      </button>
+      />
     </div>
   );
 }
@@ -913,12 +932,23 @@ function InquiriesView() {
 function SettingsPanel() {
   const { loadedFrom, supabaseReady, exportJson, importJson, resetAll } = useSiteData();
   const [text, setText] = useState("");
+  const [importError, setImportError] = useState<string | null>(null);
+  const sourceLabel =
+    loadedFrom === "supabase"
+      ? "Synced with Supabase"
+      : loadedFrom === "syncing"
+        ? "Syncing…"
+        : loadedFrom === "sync-failed"
+          ? "Sync failed — showing local copy"
+          : loadedFrom === "local"
+            ? "Local edits (this browser)"
+            : "Built-in defaults";
   return (
     <div className="grid gap-4">
       <div className="glass-card p-6">
         <h2 className="font-heading mb-2 text-lg font-bold">Backend status</h2>
         <p className="text-sm text-light-muted dark:text-dark-muted">
-          Content source: <strong>{loadedFrom}</strong> · Supabase:{" "}
+          Content source: <strong>{sourceLabel}</strong> · Supabase:{" "}
           <strong>{supabaseReady ? "configured" : "not configured (local mode)"}</strong>
         </p>
         {!supabaseReady ? (
@@ -941,8 +971,9 @@ function SettingsPanel() {
             onClick={() => {
               try {
                 importJson(text);
+                setImportError(null);
               } catch {
-                /* invalid json */
+                setImportError("Invalid content file — nothing was changed. Check the JSON shape.");
               }
             }}
           >
@@ -957,10 +988,17 @@ function SettingsPanel() {
           >
             Copy JSON
           </button>
-          <button type="button" className="px-4 py-2 text-sm text-red-400" onClick={resetAll}>
-            Reset to defaults
-          </button>
+          <DeleteButton
+            label="Reset to defaults"
+            className="px-4 py-2 text-sm text-red-400"
+            onDelete={resetAll}
+          />
         </div>
+        {importError ? (
+          <p className="mt-3 text-sm text-red-400" role="alert">
+            {importError}
+          </p>
+        ) : null}
         <textarea className="field mt-4 font-mono" rows={10} value={text} onChange={(e) => setText(e.target.value)} placeholder="Exported JSON appears here…" />
       </div>
     </div>

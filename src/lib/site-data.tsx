@@ -319,8 +319,53 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
   const importJson = useCallback(
     (json: string) => {
-      const parsed = JSON.parse(json) as Partial<SiteContent>;
-      persist(mergeContent(defaultContent(), parsed));
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(json);
+      } catch {
+        throw new Error("Not valid JSON.");
+      }
+      if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+        throw new Error("Top level must be an object with en/fa content.");
+      }
+      const langs = (["en", "fa"] as const).filter((l) => l in parsed);
+      if (langs.length === 0) {
+        throw new Error('No "en" or "fa" content found.');
+      }
+      const arrayKeys: (keyof SiteData)[] = [
+        "navItems",
+        "toolChips",
+        "terminalCommands",
+        "stats",
+        "services",
+        "projects",
+        "projectFilters",
+        "experience",
+        "skillGroups",
+        "processSteps",
+        "testimonials",
+        "gallery",
+        "stacks",
+      ];
+      for (const l of langs) {
+        const section = (parsed as Record<string, unknown>)[l];
+        if (typeof section !== "object" || section === null) {
+          throw new Error(`"${l}" must be an object of sections.`);
+        }
+        const rec = section as Record<string, unknown>;
+        if ("profile" in rec && (typeof rec.profile !== "object" || rec.profile === null)) {
+          throw new Error(`"${l}.profile" must be an object.`);
+        }
+        if ("sampleCode" in rec && typeof rec.sampleCode !== "string") {
+          throw new Error(`"${l}.sampleCode" must be a string.`);
+        }
+        for (const key of arrayKeys) {
+          if (key in rec && !Array.isArray(rec[key])) {
+            throw new Error(`"${l}.${key}" must be a list.`);
+          }
+        }
+      }
+      persist(mergeContent(defaultContent(), parsed as Partial<SiteContent>));
     },
     [persist],
   );
