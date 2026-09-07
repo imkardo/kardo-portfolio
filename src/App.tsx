@@ -13,6 +13,7 @@ import { Resume } from "@/components/sections/resume";
 import { Services } from "@/components/sections/services";
 import { Stacks } from "@/components/sections/stacks";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { LanguageProvider } from "@/lib/i18n";
 import { SiteDataProvider } from "@/lib/site-data";
 
@@ -20,7 +21,8 @@ const Admin = lazy(() => import("@/pages/Admin"));
 
 function Site() {
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text">
+    <ErrorBoundary surface="site">
+      <div className="flex min-h-screen flex-col overflow-x-hidden bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text">
       <Navbar />
       <main className="flex-1">
         <Hero />
@@ -35,7 +37,8 @@ function Site() {
         <Contact />
       </main>
       <Footer />
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 }
 
@@ -49,9 +52,11 @@ export default function App() {
             <Route
               path="/admin"
               element={
-                <Suspense fallback={<div className="p-8 text-center">Loading admin…</div>}>
-                  <Admin />
-                </Suspense>
+                <ErrorBoundary surface="admin">
+                  <Suspense fallback={<div className="p-8 text-center">Loading admin…</div>}>
+                    <Admin />
+                  </Suspense>
+                </ErrorBoundary>
               }
             />
             <Route path="*" element={<Site />} />

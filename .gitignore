@@ -2,6 +2,12 @@
 node_modules/
 dist/
 
+# secrets — never commit real keys (anon key is public by design,
+# but a service-role key here would be a full DB compromise)
+.env
+.env.*
+!.env.example
+
 # editor / OS
 .DS_Store
 *.local
