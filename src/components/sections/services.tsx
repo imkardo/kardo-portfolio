@@ -25,7 +25,7 @@ export function Services() {
             return (
               <article key={service.id} className="glass-card-hover group p-6 md:p-8">
                 <div className="mb-4 text-primary transition-colors duration-200 group-hover:text-accent">
-                  <Icon className="h-8 w-8" strokeWidth={1.5} />
+                  <Icon className="h-8 w-8" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <h3 className="font-heading mb-3 text-xl font-bold text-light-text dark:text-dark-text">
                   {service.title}

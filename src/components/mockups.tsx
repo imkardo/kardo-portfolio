@@ -110,7 +110,7 @@ function TerminalArt() {
       <div>
         <span className="text-accent">$</span> harbor status
       </div>
-      <div>prod  ● healthy · 12 pods</div>
+      <div>prod ● healthy · 12 pods</div>
       <div>canary ● 8% traffic</div>
       <div className="text-slate-400">rollout 04:12 remaining</div>
     </div>

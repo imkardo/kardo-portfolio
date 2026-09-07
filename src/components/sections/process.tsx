@@ -53,7 +53,9 @@ function StepVisual({ kind, fa }: { kind: ProcessStep["visual"]; fa: boolean }) 
         ].map(([k, v]) => (
           <div key={k} className="rounded-lg border border-white/10 bg-white/5 p-2">
             <div className="text-[10px] tracking-wide text-primary">{k}</div>
-            <div className="mt-1 font-medium text-light-text dark:text-dark-text" dir="ltr">{v}</div>
+            <div className="mt-1 font-medium text-light-text dark:text-dark-text" dir="ltr">
+              {v}
+            </div>
           </div>
         ))}
       </div>
@@ -61,7 +63,10 @@ function StepVisual({ kind, fa }: { kind: ProcessStep["visual"]; fa: boolean }) 
   }
   if (kind === "code") {
     return (
-      <pre dir="ltr" className="overflow-x-auto rounded-xl bg-gray-950 p-4 text-left font-mono text-[11px] leading-relaxed text-slate-300">
+      <pre
+        dir="ltr"
+        className="overflow-x-auto rounded-xl bg-gray-950 p-4 text-left font-mono text-[11px] leading-relaxed text-slate-300"
+      >
         <code>{`<section className="bg-dark-bg">
   <h1 className="font-heading">
     ${fa ? "پول آرام، حساب روشن" : "Quiet money, clear books"}
@@ -81,7 +86,11 @@ function StepVisual({ kind, fa }: { kind: ProcessStep["visual"]; fa: boolean }) 
       <ul className="space-y-2 text-start text-sm">
         {items.map((item) => (
           <li key={item} className="flex items-center gap-2 text-light-text dark:text-dark-text">
-            <Check className="h-4 w-4 shrink-0 text-emerald-400" strokeWidth={2} />
+            <Check
+              className="h-4 w-4 shrink-0 text-emerald-400"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
             {item}
           </li>
         ))}
@@ -94,7 +103,9 @@ function StepVisual({ kind, fa }: { kind: ProcessStep["visual"]; fa: boolean }) 
         {fa ? "لایو در پروداکشن" : "Live in production"}
       </div>
       <p className="mt-2 text-sm text-light-muted dark:text-dark-muted">
-        {fa ? "اینسترومنت‌شده، مستند و تحویل‌داده‌شده." : "Instrumented, documented, and handed over."}
+        {fa
+          ? "اینسترومنت‌شده، مستند و تحویل‌داده‌شده."
+          : "Instrumented, documented, and handed over."}
       </p>
     </div>
   );

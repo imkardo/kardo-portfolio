@@ -31,7 +31,9 @@ export function Resume() {
                   <h3 className="font-heading text-lg font-bold text-light-text dark:text-dark-text">
                     {job.role}
                   </h3>
-                  <span className="text-sm text-light-muted dark:text-dark-muted">{job.period}</span>
+                  <span className="text-sm text-light-muted dark:text-dark-muted">
+                    {job.period}
+                  </span>
                 </div>
                 <div className="mt-1 text-sm text-primary">
                   {job.company} · {job.location}
@@ -80,9 +82,14 @@ export function Resume() {
                 <span className="h-2 w-2 rounded-full bg-red-400/80" />
                 <span className="h-2 w-2 rounded-full bg-amber-400/80" />
                 <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
-                <span className="ms-2 font-mono text-[11px] text-slate-400" dir="ltr">code.py</span>
+                <span className="ms-2 font-mono text-[11px] text-slate-400" dir="ltr">
+                  code.py
+                </span>
               </div>
-              <pre dir="ltr" className="overflow-x-auto p-4 text-left font-mono text-[11px] leading-relaxed text-slate-300 sm:text-xs">
+              <pre
+                dir="ltr"
+                className="overflow-x-auto p-4 text-left font-mono text-[11px] leading-relaxed text-slate-300 sm:text-xs"
+              >
                 <code>{sampleCode}</code>
               </pre>
             </div>

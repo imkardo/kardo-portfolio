@@ -1,12 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  Briefcase,
-  FolderGit2,
-  Code2,
-  Star,
-  Globe2,
-  Timer,
-} from "lucide-react";
+import { Briefcase, FolderGit2, Code2, Star, Globe2, Timer } from "lucide-react";
 
 export type Stat = {
   value: string;

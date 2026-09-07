@@ -28,7 +28,9 @@ export function Cta() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-light-muted dark:text-dark-muted">
           {d.badges.map((badge) => (
             <div key={badge} className="flex items-center gap-2">
-              <span className="text-emerald-400">✓</span>
+              <span className="text-emerald-400" aria-hidden="true">
+                ✓
+              </span>
               <span>{badge}</span>
             </div>
           ))}

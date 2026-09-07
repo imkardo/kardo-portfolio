@@ -65,7 +65,10 @@ export function About() {
                 {profile.title}
               </div>
             </div>
-            <pre dir="ltr" className="mt-6 overflow-x-auto rounded-xl bg-gray-950 p-4 font-mono text-[11px] leading-relaxed text-slate-300 text-left">
+            <pre
+              dir="ltr"
+              className="mt-6 overflow-x-auto rounded-xl bg-gray-950 p-4 font-mono text-[11px] leading-relaxed text-slate-300 text-left"
+            >
               <code>
                 {`const engineer = {
   name: "${profile.name}",

@@ -28,7 +28,6 @@ export const ui = {
     },
     stacks: {
       title: (n: number) => `${n} Stacks I Ship With`,
-      titleAccent: "Ship With",
       subtitle:
         "Framework-specific taste, not a laundry list. The tools I reach for when the work has to last.",
     },
@@ -77,7 +76,12 @@ export const ui = {
       projectType: "Project type",
       budget: "Budget",
       message: "Message",
-      projectOptions: ["Platform / backend", "Product / full-stack", "Design system", "Advisory"] as string[],
+      projectOptions: [
+        "Platform / backend",
+        "Product / full-stack",
+        "Design system",
+        "Advisory",
+      ] as string[],
       budgetOptions: ["Still scoping", "Under $20k", "$20k – $60k", "$60k+"] as string[],
       requiredError: "Name, email, and a short note are required.",
       invalidEmailError: "Please use a valid email address.",
@@ -127,8 +131,8 @@ export const ui = {
     },
     stacks: {
       title: (n: number) => `${n} تکنولوژی که با آن کار می‌کنم`,
-      titleAccent: "کار می‌کنم",
-      subtitle: "سلیقه تخصصی در فریمورک‌ها، نه فهرست بلندبالا. ابزارهایی که وقتی کار باید ماندگار باشد به سراغشان می‌روم.",
+      subtitle:
+        "سلیقه تخصصی در فریمورک‌ها، نه فهرست بلندبالا. ابزارهایی که وقتی کار باید ماندگار باشد به سراغشان می‌روم.",
     },
     process: {
       titleA: "نحوه",
@@ -138,13 +142,15 @@ export const ui = {
     projects: {
       titleA: "پروژه‌های",
       titleB: "منتخب",
-      subtitle: "چند سیستمی که طراحی، پیاده‌سازی و در وضعیتی تحویل دادم که یک تیم واقعاً بتواند آن را اجرا کند.",
+      subtitle:
+        "چند سیستمی که طراحی، پیاده‌سازی و در وضعیتی تحویل دادم که یک تیم واقعاً بتواند آن را اجرا کند.",
       all: "همه",
     },
     gallery: {
       titleA: "گالری",
       titleB: "رابط‌ها",
-      subtitle: "برش‌هایی از کارهای تحویل‌شده — داشبوردها، لجرها و سطح‌های آرامی که اپراتورها در آن زندگی می‌کنند.",
+      subtitle:
+        "برش‌هایی از کارهای تحویل‌شده — داشبوردها، لجرها و سطح‌های آرامی که اپراتورها در آن زندگی می‌کنند.",
       close: "بستن گالری",
     },
     resume: {
@@ -174,13 +180,19 @@ export const ui = {
       budget: "بودجه",
       message: "پیام",
       projectOptions: ["پلتفرم / بک‌اند", "محصول / فول‌استک", "دیزاین‌سیستم", "مشاوره"] as string[],
-      budgetOptions: ["هنوز در حال بررسی", "زیر ۲۰ هزار دلار", "۲۰ تا ۶۰ هزار دلار", "بالای ۶۰ هزار دلار"] as string[],
+      budgetOptions: [
+        "هنوز در حال بررسی",
+        "زیر ۲۰ هزار دلار",
+        "۲۰ تا ۶۰ هزار دلار",
+        "بالای ۶۰ هزار دلار",
+      ] as string[],
       requiredError: "نام، ایمیل و یک پیام کوتاه الزامی است.",
       invalidEmailError: "لطفاً یک ایمیل معتبر وارد کن.",
       saveError: "ذخیره پیام ممکن نشد. مستقیم ایمیل بزن.",
       send: "ارسال پیام",
       received: "پیام دریافت شد.",
-      receivedBody: (email: string) => `به همان ایمیلی که گذاشتی جواب می‌دهم. اگر فوری است، مستقیم به ${email} ایمیل بزن.`,
+      receivedBody: (email: string) =>
+        `به همان ایمیلی که گذاشتی جواب می‌دهم. اگر فوری است، مستقیم به ${email} ایمیل بزن.`,
       sendAnother: "ارسال پیام دیگر",
     },
     footer: {

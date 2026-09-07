@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { ProjectMockup } from "@/components/mockups";
 import { useSiteData } from "@/lib/site-data";
@@ -14,11 +14,36 @@ export function Gallery() {
   const [active, setActive] = useState<string | null>(null);
   const item = gallery.find((g) => g.id === active);
   const project = item ? projects.find((p) => p.id === item.projectId) : undefined;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!active) return;
+    openerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
+      if (e.key === "Escape") {
+        setActive(null);
+        return;
+      }
+      // Minimal focus trap: keep Tab cycling inside the dialog.
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
@@ -26,6 +51,7 @@ export function Gallery() {
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+      openerRef.current?.focus();
     };
   }, [active]);
 
@@ -74,16 +100,18 @@ export function Gallery() {
           onClick={() => setActive(null)}
         >
           <div
+            ref={dialogRef}
             className="glass-card relative w-full max-w-3xl overflow-hidden p-4 sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              ref={closeRef}
               type="button"
               className="absolute top-3 end-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/10"
               onClick={() => setActive(null)}
               aria-label={d.close}
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
             <ProjectMockup kind={item.kind} title={item.title} className="h-64 sm:h-80" />
             <h3

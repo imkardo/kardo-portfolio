@@ -23,17 +23,35 @@ import {
   Workflow,
   type LucideIcon,
 } from "lucide-react";
-import { profile as enProfile, navItems as enNavItems, toolChips as enToolChips, terminalCommands as enTerminalCommands } from "@/data/profile";
+import {
+  profile as enProfile,
+  navItems as enNavItems,
+  toolChips as enToolChips,
+  terminalCommands as enTerminalCommands,
+} from "@/data/profile";
 import { stats as enStats } from "@/data/stats";
 import { services as enServices } from "@/data/services";
-import { projects as enProjects, projectFilters as enProjectFilters, type Project } from "@/data/projects";
+import {
+  projects as enProjects,
+  projectFilters as enProjectFilters,
+  type Project,
+} from "@/data/projects";
 import { experience as enExperience, type Experience } from "@/data/experience";
-import { skillGroups as enSkillGroups, sampleCode as enSampleCode, type SkillGroup } from "@/data/skills";
+import {
+  skillGroups as enSkillGroups,
+  sampleCode as enSampleCode,
+  type SkillGroup,
+} from "@/data/skills";
 import { processSteps as enProcessSteps, type ProcessStep } from "@/data/process";
 import { testimonials as enTestimonials, type Testimonial } from "@/data/testimonials";
 import { gallery as enGallery, type GalleryItem } from "@/data/gallery";
 import { stacks as enStacks, type Stack } from "@/data/stacks";
-import { profile as faProfile, navItems as faNavItems, toolChips as faToolChips, terminalCommands as faTerminalCommands } from "@/data-fa/profile";
+import {
+  profile as faProfile,
+  navItems as faNavItems,
+  toolChips as faToolChips,
+  terminalCommands as faTerminalCommands,
+} from "@/data-fa/profile";
 import { stats as faStats } from "@/data-fa/stats";
 import { services as faServices } from "@/data-fa/services";
 import { projects as faProjects, projectFilters as faProjectFilters } from "@/data-fa/projects";
@@ -113,7 +131,10 @@ function buildDefaults(lang: Lang): SiteData {
       })),
       projects: faProjects.map((p) => ({ ...(p as unknown as Project), stack: [...p.stack] })),
       projectFilters: [...faProjectFilters],
-      experience: faExperience.map((e) => ({ ...(e as unknown as Experience), highlights: [...e.highlights] })),
+      experience: faExperience.map((e) => ({
+        ...(e as unknown as Experience),
+        highlights: [...e.highlights],
+      })),
       skillGroups: faSkillGroups.map((g) => ({
         ...(g as unknown as SkillGroup),
         items: g.items.map((i) => ({ ...i })),
@@ -230,7 +251,10 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         if (!sb || cancelled) return;
         const { data: rows, error } = await sb.from("site_content").select("key,data");
         if (error || cancelled || !rows) return;
-        const overrides: { en: Record<string, unknown>; fa: Record<string, unknown> } = { en: {}, fa: {} };
+        const overrides: { en: Record<string, unknown>; fa: Record<string, unknown> } = {
+          en: {},
+          fa: {},
+        };
         let count = 0;
         for (const row of rows as { key: string; data: unknown }[]) {
           if (row.key === "en" || row.key === "fa") {
@@ -285,8 +309,12 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         try {
           const now = new Date().toISOString();
           const results = await Promise.all([
-            sb.from("site_content").upsert({ key: "en", data: next.en, updated_at: now }, { onConflict: "key" }),
-            sb.from("site_content").upsert({ key: "fa", data: next.fa, updated_at: now }, { onConflict: "key" }),
+            sb
+              .from("site_content")
+              .upsert({ key: "en", data: next.en, updated_at: now }, { onConflict: "key" }),
+            sb
+              .from("site_content")
+              .upsert({ key: "fa", data: next.fa, updated_at: now }, { onConflict: "key" }),
           ]);
           setLoadedFrom(results.some((r) => r.error) ? "sync-failed" : "supabase");
         } catch {

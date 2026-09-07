@@ -38,9 +38,10 @@ function TerminalPrompt({ commands }: { commands: string[] }) {
     <div className="mb-8 flex justify-center px-4 sm:mb-10" dir="ltr">
       <div className="w-full max-w-xs rounded-lg bg-gray-900 px-3 py-2.5 font-mono text-xs shadow-xl sm:max-w-sm sm:px-4 sm:py-3 sm:text-sm">
         <div className="text-gray-400">
-          <span className="text-accent">$</span>{" "}
-          <span className="text-white">{text}</span>
-          <span className="cursor-blink text-white">▋</span>
+          <span className="text-accent">$</span> <span className="text-white">{text}</span>
+          <span className="cursor-blink text-white" aria-hidden="true">
+            ▋
+          </span>
         </div>
       </div>
     </div>
@@ -109,9 +110,12 @@ export function Hero() {
           {stats.map((stat) => {
             const Icon = resolveStatIcon(stat.iconName);
             return (
-              <div key={stat.label} className="glass-card-hover group p-2 text-center sm:p-4 md:p-5">
+              <div
+                key={stat.label}
+                className="glass-card-hover group p-2 text-center sm:p-4 md:p-5"
+              >
                 <div className="mb-1 flex justify-center text-primary transition-colors duration-200 group-hover:scale-110 group-hover:text-accent sm:mb-3">
-                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} />
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <div className="font-heading mb-0.5 text-lg font-bold gradient-text sm:mb-1 sm:text-2xl md:text-3xl">
                   {stat.value}

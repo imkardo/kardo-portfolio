@@ -355,7 +355,8 @@
 }
 
 /* Persian (RTL) typography — unlayered on purpose so it beats the
-   `@layer components` .font-heading rule regardless of specificity. */html[dir="rtl"] body {
+   `@layer components` .font-heading rule regardless of specificity. */
+html[dir="rtl"] body {
   font-family: "Vazirmatn", "DM Sans", ui-sans-serif, system-ui, Tahoma, sans-serif;
 }
 

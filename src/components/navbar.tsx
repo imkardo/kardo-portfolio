@@ -61,7 +61,10 @@ export function Navbar() {
                 role="group"
                 aria-label="Language / زبان"
               >
-                <Languages className="ms-1 h-4 w-4 shrink-0 text-light-muted dark:text-dark-muted" />
+                <Languages
+                  className="ms-1 h-4 w-4 shrink-0 text-light-muted dark:text-dark-muted"
+                  aria-hidden="true"
+                />
                 {(
                   [
                     { code: "en", label: "EN" },
@@ -94,7 +97,11 @@ export function Navbar() {
                 aria-expanded={open}
                 onClick={() => setOpen((v) => !v)}
               >
-                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {open ? (
+                  <X className="h-5 w-5" aria-hidden="true" />
+                ) : (
+                  <Menu className="h-5 w-5" aria-hidden="true" />
+                )}
               </button>
             </div>
           </div>

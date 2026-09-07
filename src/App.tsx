@@ -23,20 +23,20 @@ function Site() {
   return (
     <ErrorBoundary surface="site">
       <div className="flex min-h-screen flex-col overflow-x-hidden bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text">
-      <Navbar />
-      <main className="flex-1">
-        <Hero />
-        <About />
-        <Services />
-        <Stacks />
-        <Process />
-        <Projects />
-        <Gallery />
-        <Resume />
-        <Cta />
-        <Contact />
-      </main>
-      <Footer />
+        <Navbar />
+        <main className="flex-1">
+          <Hero />
+          <About />
+          <Services />
+          <Stacks />
+          <Process />
+          <Projects />
+          <Gallery />
+          <Resume />
+          <Cta />
+          <Contact />
+        </main>
+        <Footer />
       </div>
     </ErrorBoundary>
   );
@@ -47,21 +47,21 @@ export default function App() {
     <ThemeProvider>
       <LanguageProvider>
         <SiteDataProvider>
-        <HashRouter>
-          <Routes>
-            <Route
-              path="/admin"
-              element={
-                <ErrorBoundary surface="admin">
-                  <Suspense fallback={<div className="p-8 text-center">Loading admin…</div>}>
-                    <Admin />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
-            <Route path="*" element={<Site />} />
-          </Routes>
-        </HashRouter>
+          <HashRouter>
+            <Routes>
+              <Route
+                path="/admin"
+                element={
+                  <ErrorBoundary surface="admin">
+                    <Suspense fallback={<div className="p-8 text-center">Loading admin…</div>}>
+                      <Admin />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              />
+              <Route path="*" element={<Site />} />
+            </Routes>
+          </HashRouter>
         </SiteDataProvider>
       </LanguageProvider>
     </ThemeProvider>

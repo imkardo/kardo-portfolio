@@ -94,7 +94,10 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden bg-light-card dark:bg-dark-card">
+    <section
+      id="contact"
+      className="section-padding relative overflow-hidden bg-light-card dark:bg-dark-card"
+    >
       <div className="aurora-bg absolute inset-0 opacity-30" />
       <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
       <div className="absolute right-1/4 bottom-0 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
@@ -152,11 +155,15 @@ export function Contact() {
               />
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block text-sm">
-                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">{d.name}</span>
+                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
+                    {d.name}
+                  </span>
                   <input name="name" className="field" autoComplete="name" required />
                 </label>
                 <label className="block text-sm">
-                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">{d.emailField}</span>
+                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
+                    {d.emailField}
+                  </span>
                   <input
                     name="email"
                     type="email"
@@ -180,7 +187,9 @@ export function Contact() {
                   </select>
                 </label>
                 <label className="block text-sm">
-                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">{d.budget}</span>
+                  <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
+                    {d.budget}
+                  </span>
                   <select name="budget" className="field">
                     {d.budgetOptions.map((opt) => (
                       <option key={opt} value={opt}>
@@ -191,7 +200,9 @@ export function Contact() {
                 </label>
               </div>
               <label className="block text-sm">
-                <span className="mb-1.5 block text-light-muted dark:text-dark-muted">{d.message}</span>
+                <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
+                  {d.message}
+                </span>
                 <textarea name="message" className="field min-h-32" required />
               </label>
               {error ? (

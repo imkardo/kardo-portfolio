@@ -1,12 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  Layers,
-  Palette,
-  Scaling,
-  ShieldCheck,
-  Workflow,
-  Cpu,
-} from "lucide-react";
+import { Layers, Palette, Scaling, ShieldCheck, Workflow, Cpu } from "lucide-react";
 
 export type Service = {
   id: string;

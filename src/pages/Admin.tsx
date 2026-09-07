@@ -13,7 +13,6 @@ import type { Experience } from "@/data/experience";
 import type { GalleryItem } from "@/data/gallery";
 import type { ProcessStep } from "@/data/process";
 import type { Project } from "@/data/projects";
-import type { SkillGroup } from "@/data/skills";
 import type { Stack } from "@/data/stacks";
 import type { Testimonial } from "@/data/testimonials";
 
@@ -271,7 +270,10 @@ export default function Admin() {
           <button type="submit" className="btn-primary mt-6 w-full justify-center">
             Sign in
           </button>
-          <Link to="/" className="mt-4 block text-center text-sm text-light-muted dark:text-dark-muted">
+          <Link
+            to="/"
+            className="mt-4 block text-center text-sm text-light-muted dark:text-dark-muted"
+          >
             ← Back to site
           </Link>
         </form>
@@ -417,10 +419,18 @@ function ProjectsEditor() {
         <div key={p.id} className="glass-card grid gap-3 p-4 sm:p-6">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Title">
-              <input className="field" value={p.title} onChange={(e) => update(p.id, { title: e.target.value })} />
+              <input
+                className="field"
+                value={p.title}
+                onChange={(e) => update(p.id, { title: e.target.value })}
+              />
             </Field>
             <Field label="ID (unique)">
-              <input className="field" value={p.id} onChange={(e) => update(p.id, { id: e.target.value })} />
+              <input
+                className="field"
+                value={p.id}
+                onChange={(e) => update(p.id, { id: e.target.value })}
+              />
             </Field>
             <Field label="Category">
               <select
@@ -436,21 +446,38 @@ function ProjectsEditor() {
               </select>
             </Field>
             <Field label="Year">
-              <input className="field" value={p.year} onChange={(e) => update(p.id, { year: e.target.value })} />
+              <input
+                className="field"
+                value={p.year}
+                onChange={(e) => update(p.id, { year: e.target.value })}
+              />
             </Field>
           </div>
           <Field label="Summary">
-            <textarea className="field" value={p.summary} onChange={(e) => update(p.id, { summary: e.target.value })} />
+            <textarea
+              className="field"
+              value={p.summary}
+              onChange={(e) => update(p.id, { summary: e.target.value })}
+            />
           </Field>
           <Field label="Outcome">
-            <input className="field" value={p.outcome} onChange={(e) => update(p.id, { outcome: e.target.value })} />
+            <input
+              className="field"
+              value={p.outcome}
+              onChange={(e) => update(p.id, { outcome: e.target.value })}
+            />
           </Field>
           <Field label="Stack (comma separated)">
             <input
               className="field"
               value={p.stack.join(", ")}
               onChange={(e) =>
-                update(p.id, { stack: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })
+                update(p.id, {
+                  stack: e.target.value
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean),
+                })
               }
             />
           </Field>
@@ -475,7 +502,16 @@ function ServicesEditor() {
             type="button"
             className="btn-secondary px-4 py-2 text-sm"
             onClick={() =>
-              setItems([...items, { id: `service-${Date.now()}`, title: "New service", description: "", tags: [] as string[], iconName: "Layers" as const }])
+              setItems([
+                ...items,
+                {
+                  id: `service-${Date.now()}`,
+                  title: "New service",
+                  description: "",
+                  tags: [] as string[],
+                  iconName: "Layers" as const,
+                },
+              ])
             }
           >
             + Add
@@ -487,13 +523,19 @@ function ServicesEditor() {
         <div key={s.id} className="glass-card grid gap-3 p-4 sm:p-6">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Title">
-              <input className="field" value={s.title} onChange={(e) => update(s.id, { title: e.target.value })} />
+              <input
+                className="field"
+                value={s.title}
+                onChange={(e) => update(s.id, { title: e.target.value })}
+              />
             </Field>
             <Field label="Icon">
               <select
                 className="field"
                 value={s.iconName}
-                onChange={(e) => update(s.id, { iconName: e.target.value as EditableService["iconName"] })}
+                onChange={(e) =>
+                  update(s.id, { iconName: e.target.value as EditableService["iconName"] })
+                }
               >
                 {Object.keys(SERVICE_ICONS).map((n) => (
                   <option key={n} value={n}>
@@ -504,13 +546,24 @@ function ServicesEditor() {
             </Field>
           </div>
           <Field label="Description">
-            <textarea className="field" value={s.description} onChange={(e) => update(s.id, { description: e.target.value })} />
+            <textarea
+              className="field"
+              value={s.description}
+              onChange={(e) => update(s.id, { description: e.target.value })}
+            />
           </Field>
           <Field label="Tags (comma separated)">
             <input
               className="field"
               value={s.tags.join(", ")}
-              onChange={(e) => update(s.id, { tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
+              onChange={(e) =>
+                update(s.id, {
+                  tags: e.target.value
+                    .split(",")
+                    .map((t) => t.trim())
+                    .filter(Boolean),
+                })
+              }
             />
           </Field>
           <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== s.id))} />
@@ -533,7 +586,12 @@ function TestimonialsEditor() {
           <button
             type="button"
             className="btn-secondary px-4 py-2 text-sm"
-            onClick={() => setItems([...items, { id: `t-${Date.now()}`, quote: "", name: "", role: "", company: "" }])}
+            onClick={() =>
+              setItems([
+                ...items,
+                { id: `t-${Date.now()}`, quote: "", name: "", role: "", company: "" },
+              ])
+            }
           >
             + Add
           </button>
@@ -543,17 +601,33 @@ function TestimonialsEditor() {
       {items.map((t) => (
         <div key={t.id} className="glass-card grid gap-3 p-4 sm:p-6">
           <Field label="Quote">
-            <textarea className="field" value={t.quote} onChange={(e) => update(t.id, { quote: e.target.value })} />
+            <textarea
+              className="field"
+              value={t.quote}
+              onChange={(e) => update(t.id, { quote: e.target.value })}
+            />
           </Field>
           <div className="grid gap-3 sm:grid-cols-3">
             <Field label="Name">
-              <input className="field" value={t.name} onChange={(e) => update(t.id, { name: e.target.value })} />
+              <input
+                className="field"
+                value={t.name}
+                onChange={(e) => update(t.id, { name: e.target.value })}
+              />
             </Field>
             <Field label="Role">
-              <input className="field" value={t.role} onChange={(e) => update(t.id, { role: e.target.value })} />
+              <input
+                className="field"
+                value={t.role}
+                onChange={(e) => update(t.id, { role: e.target.value })}
+              />
             </Field>
             <Field label="Company">
-              <input className="field" value={t.company} onChange={(e) => update(t.id, { company: e.target.value })} />
+              <input
+                className="field"
+                value={t.company}
+                onChange={(e) => update(t.id, { company: e.target.value })}
+              />
             </Field>
           </div>
           <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== t.id))} />
@@ -573,7 +647,11 @@ function StacksEditor() {
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-lg font-bold">Stacks ({items.length})</h2>
         <div className="flex gap-2">
-          <button type="button" className="btn-secondary px-4 py-2 text-sm" onClick={() => setItems([...items, { id: `s-${Date.now()}`, name: "", blurb: "" }])}>
+          <button
+            type="button"
+            className="btn-secondary px-4 py-2 text-sm"
+            onClick={() => setItems([...items, { id: `s-${Date.now()}`, name: "", blurb: "" }])}
+          >
             + Add
           </button>
           <SaveButton onSave={() => saveSection("stacks", items)} />
@@ -582,10 +660,18 @@ function StacksEditor() {
       {items.map((s) => (
         <div key={s.id} className="glass-card grid gap-3 p-4 sm:grid-cols-2">
           <Field label="Name">
-            <input className="field" value={s.name} onChange={(e) => update(s.id, { name: e.target.value })} />
+            <input
+              className="field"
+              value={s.name}
+              onChange={(e) => update(s.id, { name: e.target.value })}
+            />
           </Field>
           <Field label="Blurb">
-            <input className="field" value={s.blurb} onChange={(e) => update(s.id, { blurb: e.target.value })} />
+            <input
+              className="field"
+              value={s.blurb}
+              onChange={(e) => update(s.id, { blurb: e.target.value })}
+            />
           </Field>
           <DeleteButton
             className="justify-self-start text-sm text-red-400 sm:col-span-2"
@@ -610,7 +696,18 @@ function GalleryEditor() {
           <button
             type="button"
             className="btn-secondary px-4 py-2 text-sm"
-            onClick={() => setItems([...items, { id: `g-${Date.now()}`, title: "", caption: "", projectId: content[editLang].projects[0]?.id ?? "", kind: "dashboard" as const }])}
+            onClick={() =>
+              setItems([
+                ...items,
+                {
+                  id: `g-${Date.now()}`,
+                  title: "",
+                  caption: "",
+                  projectId: content[editLang].projects[0]?.id ?? "",
+                  kind: "dashboard" as const,
+                },
+              ])
+            }
           >
             + Add
           </button>
@@ -620,16 +717,32 @@ function GalleryEditor() {
       {items.map((g) => (
         <div key={g.id} className="glass-card grid gap-3 p-4 sm:grid-cols-2">
           <Field label="Title">
-            <input className="field" value={g.title} onChange={(e) => update(g.id, { title: e.target.value })} />
+            <input
+              className="field"
+              value={g.title}
+              onChange={(e) => update(g.id, { title: e.target.value })}
+            />
           </Field>
           <Field label="Caption">
-            <input className="field" value={g.caption} onChange={(e) => update(g.id, { caption: e.target.value })} />
+            <input
+              className="field"
+              value={g.caption}
+              onChange={(e) => update(g.id, { caption: e.target.value })}
+            />
           </Field>
           <Field label="Project ID">
-            <input className="field" value={g.projectId} onChange={(e) => update(g.id, { projectId: e.target.value })} />
+            <input
+              className="field"
+              value={g.projectId}
+              onChange={(e) => update(g.id, { projectId: e.target.value })}
+            />
           </Field>
           <Field label="Kind">
-            <select className="field" value={g.kind} onChange={(e) => update(g.id, { kind: e.target.value as GalleryItem["kind"] })}>
+            <select
+              className="field"
+              value={g.kind}
+              onChange={(e) => update(g.id, { kind: e.target.value as GalleryItem["kind"] })}
+            >
               {["dashboard", "mobile", "terminal", "system", "ledger", "map"].map((k) => (
                 <option key={k} value={k}>
                   {k}
@@ -657,7 +770,23 @@ function ExperienceEditor() {
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-lg font-bold">Experience ({items.length})</h2>
         <div className="flex gap-2">
-          <button type="button" className="btn-secondary px-4 py-2 text-sm" onClick={() => setItems([...items, { id: `job-${Date.now()}`, role: "", company: "", period: "", location: "", highlights: [] }])}>
+          <button
+            type="button"
+            className="btn-secondary px-4 py-2 text-sm"
+            onClick={() =>
+              setItems([
+                ...items,
+                {
+                  id: `job-${Date.now()}`,
+                  role: "",
+                  company: "",
+                  period: "",
+                  location: "",
+                  highlights: [],
+                },
+              ])
+            }
+          >
             + Add
           </button>
           <SaveButton onSave={() => saveSection("experience", items)} />
@@ -667,23 +796,46 @@ function ExperienceEditor() {
         <div key={job.id} className="glass-card grid gap-3 p-4 sm:p-6">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Role">
-              <input className="field" value={job.role} onChange={(e) => update(job.id, { role: e.target.value })} />
+              <input
+                className="field"
+                value={job.role}
+                onChange={(e) => update(job.id, { role: e.target.value })}
+              />
             </Field>
             <Field label="Company">
-              <input className="field" value={job.company} onChange={(e) => update(job.id, { company: e.target.value })} />
+              <input
+                className="field"
+                value={job.company}
+                onChange={(e) => update(job.id, { company: e.target.value })}
+              />
             </Field>
             <Field label="Period">
-              <input className="field" value={job.period} onChange={(e) => update(job.id, { period: e.target.value })} />
+              <input
+                className="field"
+                value={job.period}
+                onChange={(e) => update(job.id, { period: e.target.value })}
+              />
             </Field>
             <Field label="Location">
-              <input className="field" value={job.location} onChange={(e) => update(job.id, { location: e.target.value })} />
+              <input
+                className="field"
+                value={job.location}
+                onChange={(e) => update(job.id, { location: e.target.value })}
+              />
             </Field>
           </div>
           <Field label="Highlights (one per line)">
             <textarea
               className="field"
               value={job.highlights.join("\n")}
-              onChange={(e) => update(job.id, { highlights: e.target.value.split("\n").map((l) => l.trim()).filter(Boolean) })}
+              onChange={(e) =>
+                update(job.id, {
+                  highlights: e.target.value
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter(Boolean),
+                })
+              }
             />
           </Field>
           <DeleteButton onDelete={() => setItems(items.filter((x) => x.id !== job.id))} />
@@ -714,7 +866,9 @@ function SkillsEditor() {
             <input
               className="field"
               value={g.title}
-              onChange={(e) => setGroups(groups.map((x, i) => (i === gi ? { ...x, title: e.target.value } : x)))}
+              onChange={(e) =>
+                setGroups(groups.map((x, i) => (i === gi ? { ...x, title: e.target.value } : x)))
+              }
             />
           </Field>
           <div className="mt-3 grid gap-2">
@@ -726,7 +880,14 @@ function SkillsEditor() {
                   onChange={(e) =>
                     setGroups(
                       groups.map((x, i) =>
-                        i === gi ? { ...x, items: x.items.map((it, j) => (j === ii ? { ...it, name: e.target.value } : it)) } : x,
+                        i === gi
+                          ? {
+                              ...x,
+                              items: x.items.map((it, j) =>
+                                j === ii ? { ...it, name: e.target.value } : it,
+                              ),
+                            }
+                          : x,
                       ),
                     )
                   }
@@ -740,7 +901,14 @@ function SkillsEditor() {
                   onChange={(e) =>
                     setGroups(
                       groups.map((x, i) =>
-                        i === gi ? { ...x, items: x.items.map((it, j) => (j === ii ? { ...it, level: Number(e.target.value) } : it)) } : x,
+                        i === gi
+                          ? {
+                              ...x,
+                              items: x.items.map((it, j) =>
+                                j === ii ? { ...it, level: Number(e.target.value) } : it,
+                              ),
+                            }
+                          : x,
                       ),
                     )
                   }
@@ -748,7 +916,13 @@ function SkillsEditor() {
                 <button
                   type="button"
                   className="text-sm text-red-400"
-                  onClick={() => setGroups(groups.map((x, i) => (i === gi ? { ...x, items: x.items.filter((_, j) => j !== ii) } : x)))}
+                  onClick={() =>
+                    setGroups(
+                      groups.map((x, i) =>
+                        i === gi ? { ...x, items: x.items.filter((_, j) => j !== ii) } : x,
+                      ),
+                    )
+                  }
                 >
                   ×
                 </button>
@@ -757,7 +931,13 @@ function SkillsEditor() {
             <button
               type="button"
               className="justify-self-start text-sm text-primary"
-              onClick={() => setGroups(groups.map((x, i) => (i === gi ? { ...x, items: [...x.items, { name: "New skill", level: 70 }] } : x)))}
+              onClick={() =>
+                setGroups(
+                  groups.map((x, i) =>
+                    i === gi ? { ...x, items: [...x.items, { name: "New skill", level: 70 }] } : x,
+                  ),
+                )
+              }
             >
               + Add skill
             </button>
@@ -766,7 +946,12 @@ function SkillsEditor() {
       ))}
       <div className="glass-card p-4 sm:p-6">
         <Field label="Sample code (slo.ts)">
-          <textarea className="field font-mono" rows={10} value={code} onChange={(e) => setCode(e.target.value)} />
+          <textarea
+            className="field font-mono"
+            rows={10}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+          />
         </Field>
       </div>
     </div>
@@ -787,14 +972,26 @@ function ProcessEditor() {
       {items.map((s) => (
         <div key={s.n} className="glass-card grid gap-3 p-4 sm:grid-cols-2">
           <Field label="Step number">
-            <input className="field" value={s.n} onChange={(e) => update(s.n, { n: e.target.value })} />
+            <input
+              className="field"
+              value={s.n}
+              onChange={(e) => update(s.n, { n: e.target.value })}
+            />
           </Field>
           <Field label="Title">
-            <input className="field" value={s.title} onChange={(e) => update(s.n, { title: e.target.value })} />
+            <input
+              className="field"
+              value={s.title}
+              onChange={(e) => update(s.n, { title: e.target.value })}
+            />
           </Field>
           <div className="sm:col-span-2">
             <Field label="Description">
-              <textarea className="field" value={s.description} onChange={(e) => update(s.n, { description: e.target.value })} />
+              <textarea
+                className="field"
+                value={s.description}
+                onChange={(e) => update(s.n, { description: e.target.value })}
+              />
             </Field>
           </div>
         </div>
@@ -815,13 +1012,35 @@ function StatsEditor() {
       {items.map((s, i) => (
         <div key={`${s.label}-${i}`} className="glass-card grid gap-3 p-4 sm:grid-cols-3">
           <Field label="Value">
-            <input className="field" value={s.value} onChange={(e) => setItems(items.map((x, j) => (j === i ? { ...x, value: e.target.value } : x)))} />
+            <input
+              className="field"
+              value={s.value}
+              onChange={(e) =>
+                setItems(items.map((x, j) => (j === i ? { ...x, value: e.target.value } : x)))
+              }
+            />
           </Field>
           <Field label="Label">
-            <input className="field" value={s.label} onChange={(e) => setItems(items.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)))} />
+            <input
+              className="field"
+              value={s.label}
+              onChange={(e) =>
+                setItems(items.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)))
+              }
+            />
           </Field>
           <Field label="Icon">
-            <select className="field" value={s.iconName} onChange={(e) => setItems(items.map((x, j) => (j === i ? { ...x, iconName: e.target.value as EditableStat["iconName"] } : x)))}>
+            <select
+              className="field"
+              value={s.iconName}
+              onChange={(e) =>
+                setItems(
+                  items.map((x, j) =>
+                    j === i ? { ...x, iconName: e.target.value as EditableStat["iconName"] } : x,
+                  ),
+                )
+              }
+            >
               {Object.keys(STAT_ICONS).map((n) => (
                 <option key={n} value={n}>
                   {n}
@@ -837,9 +1056,9 @@ function StatsEditor() {
 
 function ContentEditor() {
   const { saveSection } = useSiteData();
-  const [toolChipsValue, setToolChipsValue] = useEditSection("toolChips");
-  const [terminalValue, setTerminalValue] = useEditSection("terminalCommands");
-  const [navValue, setNavValue] = useEditSection("navItems");
+  const [toolChipsValue] = useEditSection("toolChips");
+  const [terminalValue] = useEditSection("terminalCommands");
+  const [navValue] = useEditSection("navItems");
   const [chips, setChips] = useState(toolChipsValue.join(", "));
   const [commands, setCommands] = useState(terminalValue.join("\n"));
   const [nav, setNav] = useState(navValue.map((n) => `${n.label}|${n.href}`).join("\n"));
@@ -855,7 +1074,12 @@ function ContentEditor() {
         <input className="field" value={chips} onChange={(e) => setChips(e.target.value)} />
       </Field>
       <Field label="Terminal commands (one per line)">
-        <textarea className="field" rows={5} value={commands} onChange={(e) => setCommands(e.target.value)} />
+        <textarea
+          className="field"
+          rows={5}
+          value={commands}
+          onChange={(e) => setCommands(e.target.value)}
+        />
       </Field>
       <Field label="Nav items (Label|#href, one per line)">
         <textarea className="field" rows={7} value={nav} onChange={(e) => setNav(e.target.value)} />
@@ -863,8 +1087,20 @@ function ContentEditor() {
       <SaveButton
         className="btn-primary justify-self-start"
         onSave={() => {
-          saveSection("toolChips", chips.split(",").map((s) => s.trim()).filter(Boolean));
-          saveSection("terminalCommands", commands.split("\n").map((s) => s.trim()).filter(Boolean));
+          saveSection(
+            "toolChips",
+            chips
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean),
+          );
+          saveSection(
+            "terminalCommands",
+            commands
+              .split("\n")
+              .map((s) => s.trim())
+              .filter(Boolean),
+          );
           saveSection(
             "navItems",
             nav
@@ -899,16 +1135,14 @@ function InquiriesView() {
           .limit(50)
           .then(({ data }) => {
             if (data) {
-              setItems((prev) => [
-                ...(data as Inquiry[]),
-                ...prev,
-              ]);
+              setItems((prev) => [...(data as Inquiry[]), ...prev]);
             }
           }),
       );
     }
   }, []);
-  if (items.length === 0) return <p className="text-sm text-light-muted dark:text-dark-muted">No inquiries yet.</p>;
+  if (items.length === 0)
+    return <p className="text-sm text-light-muted dark:text-dark-muted">No inquiries yet.</p>;
   return (
     <div className="space-y-3">
       {items.map((q, i) => (
@@ -954,15 +1188,24 @@ function SettingsPanel() {
         {!supabaseReady ? (
           <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm">
             <li>Create a free project at supabase.com.</li>
-            <li>Run supabase/schema.sql in the SQL editor, then create user {ADMIN_EMAIL} in Auth.</li>
-            <li>Copy Project URL + anon key into .env as VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY and redeploy.</li>
+            <li>
+              Run supabase/schema.sql in the SQL editor, then create user {ADMIN_EMAIL} in Auth.
+            </li>
+            <li>
+              Copy Project URL + anon key into .env as VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY
+              and redeploy.
+            </li>
           </ol>
         ) : null}
       </div>
       <div className="glass-card p-6">
         <h2 className="font-heading mb-2 text-lg font-bold">Export / import</h2>
         <div className="flex flex-wrap gap-2">
-          <button type="button" className="btn-secondary px-4 py-2 text-sm" onClick={() => setText(exportJson())}>
+          <button
+            type="button"
+            className="btn-secondary px-4 py-2 text-sm"
+            onClick={() => setText(exportJson())}
+          >
             Export to text
           </button>
           <button
@@ -999,7 +1242,13 @@ function SettingsPanel() {
             {importError}
           </p>
         ) : null}
-        <textarea className="field mt-4 font-mono" rows={10} value={text} onChange={(e) => setText(e.target.value)} placeholder="Exported JSON appears here…" />
+        <textarea
+          className="field mt-4 font-mono"
+          rows={10}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Exported JSON appears here…"
+        />
       </div>
     </div>
   );

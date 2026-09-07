@@ -18,24 +18,21 @@ export const services = [
   {
     id: "backend",
     title: "بک‌اند و CMS",
-    description:
-      "منطق سمت سرور با PHP و لاراول، سایت‌های CMS با وردپرس و اتصال به REST API.",
+    description: "منطق سمت سرور با PHP و لاراول، سایت‌های CMS با وردپرس و اتصال به REST API.",
     tags: ["Laravel", "WordPress", "REST APIs"],
     iconName: "Scaling",
   },
   {
     id: "data",
     title: "دیتابیس‌ها",
-    description:
-      "تجربه عملی با MySQL و MariaDB — طراحی اسکیما، کوئری‌ها و اتصال داده به اپلیکیشن.",
+    description: "تجربه عملی با MySQL و MariaDB — طراحی اسکیما، کوئری‌ها و اتصال داده به اپلیکیشن.",
     tags: ["MySQL", "MariaDB", "SQL"],
     iconName: "ShieldCheck",
   },
   {
     id: "tooling",
     title: "لینوکس و گردش کار گیت",
-    description:
-      "راحت با اوبونتو/دبیان/فدورا، خط فرمان، Git/GitHub‏، Node.js‏، npm و Composer.",
+    description: "راحت با اوبونتو/دبیان/فدورا، خط فرمان، Git/GitHub‏، Node.js‏، npm و Composer.",
     tags: ["Linux", "Git", "CLI"],
     iconName: "Workflow",
   },
