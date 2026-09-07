@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://kardo-portfolio.vercel.app/</loc>
+    <loc>https://kardo-one.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kardo-portfolio.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="fa" href="https://kardo-portfolio.vercel.app/#fa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kardo-one.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://kardo-one.vercel.app/#fa"/>
   </url>
 </urlset>

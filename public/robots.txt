@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /#/admin
 
-Sitemap: https://kardo-portfolio.vercel.app/sitemap.xml
+Sitemap: https://kardo-one.vercel.app/sitemap.xml
