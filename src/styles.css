@@ -355,8 +355,7 @@
 }
 
 /* Persian (RTL) typography — unlayered on purpose so it beats the
-   `@layer components` .font-heading rule regardless of specificity. */
-html[dir="rtl"] body {
+   `@layer components` .font-heading rule regardless of specificity. */html[dir="rtl"] body {
   font-family: "Vazirmatn", "DM Sans", ui-sans-serif, system-ui, Tahoma, sans-serif;
 }
 
@@ -368,4 +367,15 @@ html[dir="rtl"] h5,
 html[dir="rtl"] h6,
 html[dir="rtl"] .font-heading {
   font-family: "Vazirmatn", "Space Grotesk", ui-sans-serif, system-ui, Tahoma, sans-serif;
+}
+
+/* Small blue text on near-black fails 4.5:1 — lighten it (site is dark-only).
+   Unlayered so it beats the Tailwind utilities. */
+html.dark .text-primary {
+  color: #60a5fa;
+}
+
+html.dark .chip {
+  color: #93c5fd;
+  background-color: color-mix(in oklab, #60a5fa 18%, transparent);
 }
