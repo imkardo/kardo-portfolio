@@ -4,7 +4,7 @@ Bilingual (EN/FA, RTL) personal portfolio. Vite + React 19 + TypeScript + Tailwi
 No backend required — content lives in code, browser overrides, and optionally Supabase.
 
 - **Site:** `http://localhost:5173/#/` (English default, `فا` switcher in navbar for Persian)
-- **Admin:** `http://localhost:5173/#/admin` — hidden content editor (all sections, both languages)
+- **Admin:** `http://localhost:5173/#/kh-8291-console` — hidden content editor (all sections, both languages)
 
 ## Quick start
 
@@ -44,7 +44,7 @@ Edit code defaults directly, or use the admin panel and fine-tune wording there.
 
 ## Admin panel
 
-Open `/#/admin`. Local mode password: `heidari1387` (override with
+Open `/#/kh-8291-console`. Local mode password: `Kardo.0707` (override with
 `VITE_ADMIN_PASSWORD` in `.env`). With Supabase configured it uses
 Supabase Auth instead — sign in as your admin email.
 

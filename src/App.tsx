@@ -50,7 +50,7 @@ export default function App() {
           <HashRouter>
             <Routes>
               <Route
-                path="/admin"
+                path="/kh-8291-console"
                 element={
                   <ErrorBoundary surface="admin">
                     <Suspense fallback={<div className="p-8 text-center">Loading admin…</div>}>

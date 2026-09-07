@@ -94,33 +94,36 @@ export function Hero() {
 
         <TerminalPrompt commands={terminalCommands} />
 
-        <div className="mb-12 flex flex-row items-center justify-center gap-3 px-4 sm:mb-16 sm:gap-4">
-          <a href="#contact" className="btn-primary px-5 py-2.5 text-sm sm:px-8 sm:py-4 sm:text-lg">
+        <div className="mb-12 flex flex-col items-center justify-center gap-3 px-4 sm:mb-16 sm:flex-row sm:gap-4">
+          <a
+            href="#contact"
+            className="btn-primary w-full max-w-xs justify-center px-5 py-3 text-sm sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
+          >
             {d.hireMe}
           </a>
           <a
             href="#projects"
-            className="btn-secondary px-5 py-2.5 text-sm sm:px-8 sm:py-4 sm:text-lg"
+            className="btn-secondary w-full max-w-xs justify-center px-5 py-3 text-sm sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
           >
             {d.viewWork}
           </a>
         </div>
 
-        <div className="grid grid-cols-3 gap-1.5 px-1 sm:gap-3 sm:px-2 md:gap-4 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-2 px-1 sm:grid-cols-3 sm:gap-3 sm:px-2 md:gap-4 lg:grid-cols-6">
           {stats.map((stat) => {
             const Icon = resolveStatIcon(stat.iconName);
             return (
               <div
                 key={stat.label}
-                className="glass-card-hover group p-2 text-center sm:p-4 md:p-5"
+                className="glass-card-hover group p-3 text-center sm:p-4 md:p-5"
               >
                 <div className="mb-1 flex justify-center text-primary transition-colors duration-200 group-hover:scale-110 group-hover:text-accent sm:mb-3">
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} aria-hidden="true" />
                 </div>
-                <div className="font-heading mb-0.5 text-lg font-bold gradient-text sm:mb-1 sm:text-2xl md:text-3xl">
+                <div className="font-heading mb-0.5 text-xl font-bold gradient-text sm:mb-1 sm:text-2xl md:text-3xl">
                   {stat.value}
                 </div>
-                <div className="text-[9px] font-medium text-light-muted sm:text-xs md:text-sm dark:text-dark-muted">
+                <div className="text-[11px] font-medium text-light-muted sm:text-xs md:text-sm dark:text-dark-muted">
                   {stat.label}
                 </div>
               </div>

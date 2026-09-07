@@ -117,10 +117,10 @@ export function Footer() {
         </div>
 
         <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-light-border pt-6 sm:mt-8 sm:flex-row sm:pt-8 dark:border-dark-border">
-          <p className="text-[10px] text-light-muted sm:text-sm dark:text-dark-muted">
+          <p className="text-xs text-light-muted sm:text-sm dark:text-dark-muted">
             {d.builtWith} <span className="gradient-text">{profile.name}</span>)
           </p>
-          <p className="text-[10px] text-light-muted sm:text-sm dark:text-dark-muted">
+          <p className="text-xs text-light-muted sm:text-sm dark:text-dark-muted">
             © {new Date().getFullYear()} · {d.practiceLine}
           </p>
         </div>

@@ -26,8 +26,8 @@ test.describe("portfolio smoke", () => {
   test("hidden admin login + project CRUD round-trip", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (err) => errors.push(String(err)));
-    await page.goto(`${BASE}/#/admin`, { waitUntil: "networkidle" });
-    await page.getByLabel("Password").fill(process.env.ADMIN_PASSWORD ?? "heidari1387");
+    await page.goto(`${BASE}/#/kh-8291-console`, { waitUntil: "networkidle" });
+    await page.getByLabel("Password").fill(process.env.ADMIN_PASSWORD ?? "Kardo.0707");
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page.getByRole("button", { name: "Projects" })).toBeVisible();
     // Add a project, save, verify it appears on the public site.

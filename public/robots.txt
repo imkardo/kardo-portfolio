@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /#/admin
+Disallow: /#/kh-8291-console
 
 Sitemap: https://kardo-one.vercel.app/sitemap.xml

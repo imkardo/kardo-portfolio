@@ -17,7 +17,7 @@ import type { Stack } from "@/data/stacks";
 import type { Testimonial } from "@/data/testimonials";
 
 const ADMIN_EMAIL = "kardoheydari.1387@gmail.com";
-const LOCAL_PASSWORD = (import.meta.env.VITE_ADMIN_PASSWORD as string | undefined) || "heidari1387";
+const LOCAL_PASSWORD = (import.meta.env.VITE_ADMIN_PASSWORD as string | undefined) || "Kardo.0707";
 const SESSION_KEY = "kardo-admin-session";
 
 type Inquiry = {
@@ -207,7 +207,7 @@ export default function Admin() {
           /* ignore */
         }
       } else {
-        setError("Wrong password. Set VITE_ADMIN_PASSWORD or use heidari1387 locally.");
+        setError("Wrong password. Check VITE_ADMIN_PASSWORD or your admin password.");
       }
     }
   }
@@ -257,7 +257,7 @@ export default function Admin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="heidari1387"
+                placeholder="••••••••"
                 required
               />
             </Field>
