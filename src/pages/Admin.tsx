@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { loadSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import {
   SERVICE_ICONS,
   STAT_ICONS,
@@ -81,21 +81,29 @@ function useAdminSession() {
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
-    const sb = getSupabase();
-    if (!sb) return;
-    sb.auth.getSession().then(({ data }) => {
-      const email = data.session?.user?.email ?? null;
-      if (email) {
+    let cancelled = false;
+    let sub: { unsubscribe: () => void } | null = null;
+    void loadSupabase().then((sb) => {
+      if (!sb || cancelled) return;
+      sb.auth.getSession().then(({ data }) => {
+        if (cancelled) return;
+        const email = data.session?.user?.email ?? null;
+        if (email) {
+          setSupabaseUser(email);
+          setAuthed(true);
+        }
+      });
+      const { data } = sb.auth.onAuthStateChange((_e, session) => {
+        const email = session?.user?.email ?? null;
         setSupabaseUser(email);
-        setAuthed(true);
-      }
+        setAuthed(Boolean(email));
+      });
+      sub = { unsubscribe: () => data.subscription.unsubscribe() };
     });
-    const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
-      const email = session?.user?.email ?? null;
-      setSupabaseUser(email);
-      setAuthed(Boolean(email));
-    });
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      sub?.unsubscribe();
+    };
   }, []);
 
   return { authed, setAuthed, supabaseUser };
@@ -113,7 +121,7 @@ export default function Admin() {
     e.preventDefault();
     setError(null);
     if (isSupabaseConfigured) {
-      const sb = getSupabase();
+      const sb = await loadSupabase();
       if (!sb) {
         setError("Backend not reachable. Check Supabase env vars.");
         return;
@@ -145,7 +153,7 @@ export default function Admin() {
 
   async function logout() {
     if (isSupabaseConfigured) {
-      await getSupabase()?.auth.signOut();
+      await (await loadSupabase())?.auth.signOut();
     }
     try {
       window.sessionStorage.removeItem(SESSION_KEY);
@@ -864,10 +872,9 @@ function InquiriesView() {
       setItems([]);
     }
     if (isSupabaseConfigured) {
-      const sb = getSupabase();
-      if (sb) {
-        void sb
-          .from("inquiries")
+      void loadSupabase().then((sb) =>
+        sb
+          ?.from("inquiries")
           .select("*")
           .order("created_at", { ascending: false })
           .limit(50)
@@ -878,8 +885,8 @@ function InquiriesView() {
                 ...prev,
               ]);
             }
-          });
-      }
+          }),
+      );
     }
   }, []);
   if (items.length === 0) return <p className="text-sm text-light-muted dark:text-dark-muted">No inquiries yet.</p>;

@@ -26,12 +26,17 @@ create policy "public read site_content"
   on site_content for select
   using (true);
 
+-- Only the site owner can write. Even with open signup, random
+-- authenticated users get nothing. IMPORTANT: also turn OFF public
+-- signup in Dashboard → Authentication → Providers → Email
+-- ("Allow new users to sign up"), and create your user manually.
+-- Replace the email below if your admin address ever changes.
 drop policy if exists "admin write site_content" on site_content;
 create policy "admin write site_content"
   on site_content for all
   to authenticated
-  using (true)
-  with check (true);
+  using ((auth.jwt() ->> 'email') = 'kardoheydari.1387@gmail.com')
+  with check ((auth.jwt() ->> 'email') = 'kardoheydari.1387@gmail.com');
 
 -- Anyone can submit the contact form; only admin reads inquiries.
 drop policy if exists "public insert inquiries" on inquiries;
@@ -43,4 +48,4 @@ drop policy if exists "admin read inquiries" on inquiries;
 create policy "admin read inquiries"
   on inquiries for select
   to authenticated
-  using (true);
+  using ((auth.jwt() ->> 'email') = 'kardoheydari.1387@gmail.com');

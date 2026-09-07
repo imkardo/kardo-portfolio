@@ -2,9 +2,11 @@ import { useState, type FormEvent } from "react";
 import { useSiteData } from "@/lib/site-data";
 import { useLang } from "@/lib/i18n";
 import { t } from "@/lib/dict";
-import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { loadSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 const STORAGE_KEY = "kardo-inquiries";
+const THROTTLE_KEY = "kardo-inquiry-last-sent";
+const THROTTLE_MS = 60_000;
 
 type Inquiry = {
   name: string;
@@ -28,6 +30,25 @@ export function Contact() {
     setError(null);
     const form = e.currentTarget;
     const data = new FormData(form);
+    // Honeypot: bots fill it, humans never see it. Fake success either way.
+    if (String(data.get("website") ?? "").trim() !== "") {
+      setSent(true);
+      form.reset();
+      return;
+    }
+    try {
+      const last = Number(window.localStorage.getItem(THROTTLE_KEY) ?? "0");
+      if (Date.now() - last < THROTTLE_MS) {
+        setError(
+          lang === "fa"
+            ? "لطفاً یک دقیقه صبر کن و دوباره تلاش کن."
+            : "Please wait a minute before sending another note.",
+        );
+        return;
+      }
+    } catch {
+      /* storage unavailable — continue without throttle */
+    }
     const inquiry: Inquiry = {
       name: String(data.get("name") ?? "").trim(),
       email: String(data.get("email") ?? "").trim(),
@@ -49,16 +70,21 @@ export function Contact() {
     try {
       const existing = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "[]") as Inquiry[];
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify([inquiry, ...existing].slice(0, 50)));
+      try {
+        window.localStorage.setItem(THROTTLE_KEY, String(Date.now()));
+      } catch {
+        /* ignore */
+      }
       if (isSupabaseConfigured) {
-        void getSupabase()
-          ?.from("inquiries")
-          .insert({
+        void loadSupabase().then((sb) =>
+          sb?.from("inquiries").insert({
             name: inquiry.name,
             email: inquiry.email,
             project: inquiry.project,
             budget: inquiry.budget,
             message: inquiry.message,
-          });
+          }),
+        );
       }
       setSent(true);
       form.reset();
@@ -116,6 +142,14 @@ export function Contact() {
             </div>
           ) : (
             <div className="grid gap-4">
+              {/* Honeypot — invisible to humans, irresistible to bots. */}
+              <input
+                name="website"
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block text-sm">
                   <span className="mb-1.5 block text-light-muted dark:text-dark-muted">{d.name}</span>

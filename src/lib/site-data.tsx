@@ -43,7 +43,7 @@ import { processSteps as faProcessSteps } from "@/data-fa/process";
 import { testimonials as faTestimonials } from "@/data-fa/testimonials";
 import { gallery as faGallery } from "@/data-fa/gallery";
 import { stacks as faStacks } from "@/data-fa/stacks";
-import { getSupabase, isSupabaseConfigured } from "./supabase";
+import { loadSupabase, isSupabaseConfigured } from "./supabase";
 import { useLang, type Lang } from "./i18n";
 
 export const SERVICE_ICONS = { Layers, Palette, Scaling, ShieldCheck, Workflow, Cpu } as const;
@@ -172,7 +172,7 @@ type SiteContextValue = {
   data: SiteData;
   /** Both languages (admin editing). */
   content: SiteContent;
-  loadedFrom: "defaults" | "local" | "supabase";
+  loadedFrom: "defaults" | "local" | "syncing" | "supabase" | "sync-failed";
   supabaseReady: boolean;
   editLang: Lang;
   setEditLang: (lang: Lang) => void;
@@ -223,16 +223,22 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
   // Pull shared content from Supabase when configured (DB wins over local).
   useEffect(() => {
     if (!isSupabaseConfigured) return;
-    const sb = getSupabase();
-    if (!sb) return;
     let cancelled = false;
     (async () => {
       try {
+        const sb = await loadSupabase();
+        if (!sb || cancelled) return;
         const { data: rows, error } = await sb.from("site_content").select("key,data");
         if (error || cancelled || !rows) return;
         const overrides: { en: Record<string, unknown>; fa: Record<string, unknown> } = { en: {}, fa: {} };
         let count = 0;
         for (const row of rows as { key: string; data: unknown }[]) {
+          if (row.key === "en" || row.key === "fa") {
+            // Whole-language rows (current scheme): merge all keys at once.
+            Object.assign(overrides[row.key], (row.data ?? {}) as Record<string, unknown>);
+            count++;
+            continue;
+          }
           const sep = row.key.indexOf(":");
           if (sep > 0) {
             const l = row.key.slice(0, sep) as Lang;
@@ -269,21 +275,24 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
       /* storage full / private mode */
     }
     if (isSupabaseConfigured) {
-      const sb = getSupabase();
-      if (sb) {
-        void (async () => {
-          try {
-            for (const l of ["en", "fa"] as Lang[]) {
-              for (const [key, value] of Object.entries(next[l])) {
-                await sb.from("site_content").upsert({ key: `${l}:${key}`, data: value }, { onConflict: "key" });
-              }
-            }
-            setLoadedFrom("supabase");
-          } catch {
-            /* local copy already saved */
-          }
-        })();
-      }
+      // Two writes total (one per language) instead of one per key.
+      void (async () => {
+        const sb = await loadSupabase();
+        if (!sb) {
+          setLoadedFrom("local");
+          return;
+        }
+        try {
+          const now = new Date().toISOString();
+          const results = await Promise.all([
+            sb.from("site_content").upsert({ key: "en", data: next.en, updated_at: now }, { onConflict: "key" }),
+            sb.from("site_content").upsert({ key: "fa", data: next.fa, updated_at: now }, { onConflict: "key" }),
+          ]);
+          setLoadedFrom(results.some((r) => r.error) ? "sync-failed" : "supabase");
+        } catch {
+          setLoadedFrom("sync-failed");
+        }
+      })();
     }
   }, []);
 
