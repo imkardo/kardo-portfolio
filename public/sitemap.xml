@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<!-- Single-page app: the whole site (EN + FA toggle) lives at one
+     canonical URL. Hash fragments (e.g. /#fa) are never sent to servers
+     and are stripped by crawlers, so they must not appear here. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://kardo-one.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kardo-one.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="fa" href="https://kardo-one.vercel.app/#fa"/>
   </url>
 </urlset>
