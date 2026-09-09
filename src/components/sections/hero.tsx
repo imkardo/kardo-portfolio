@@ -35,7 +35,7 @@ function TerminalPrompt({ commands }: { commands: string[] }) {
   }, [index, phase, text, commands]);
 
   return (
-    <div className="mb-8 flex justify-center px-4 sm:mb-10" dir="ltr">
+    <div className="mb-8 flex justify-center px-4 sm:mb-10" dir="ltr" aria-hidden="true">
       <div className="w-full max-w-xs rounded-lg bg-gray-900 px-3 py-2.5 font-mono text-xs shadow-xl sm:max-w-sm sm:px-4 sm:py-3 sm:text-sm">
         <div className="text-gray-400">
           <span className="text-accent">$</span> <span className="text-white">{text}</span>
@@ -123,7 +123,7 @@ export function Hero() {
                 <div className="font-heading mb-0.5 text-xl font-bold gradient-text sm:mb-1 sm:text-2xl md:text-3xl">
                   {stat.value}
                 </div>
-                <div className="text-[11px] font-medium text-light-muted sm:text-xs md:text-sm dark:text-dark-muted">
+                <div className="text-xs font-medium text-light-muted sm:text-xs md:text-sm dark:text-dark-muted">
                   {stat.label}
                 </div>
               </div>

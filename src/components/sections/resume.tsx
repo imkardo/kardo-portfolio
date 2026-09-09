@@ -22,10 +22,10 @@ export function Resume() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="relative space-y-6">
-            <div className="absolute top-3 bottom-3 start-[11px] w-px bg-white/10 max-sm:hidden" />
+          <div className="relative min-w-0 space-y-6">
+            <div className="absolute top-3 bottom-3 start-[6px] w-px bg-white/10 max-sm:hidden" />
             {experience.map((job) => (
-              <article key={job.id} className="glass-card relative p-6 sm:ml-8">
+              <article key={job.id} className="glass-card relative p-6 sm:ms-8">
                 <span className="absolute top-8 -start-8 hidden h-3 w-3 rounded-full bg-primary ring-4 ring-dark-bg sm:block" />
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="font-heading text-lg font-bold text-light-text dark:text-dark-text">
@@ -50,7 +50,7 @@ export function Resume() {
             ))}
           </div>
 
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             {skillGroups.map((group) => (
               <div key={group.id} className="glass-card p-6">
                 <h3 className="font-heading mb-4 text-base font-bold text-light-text dark:text-dark-text">
@@ -67,7 +67,7 @@ export function Resume() {
                       </div>
                       <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-primary to-accent rtl:bg-gradient-to-l"
+                          className="h-full rounded-full bg-linear-to-r from-primary to-accent rtl:bg-linear-to-l"
                           style={{ width: `${item.level}%` }}
                         />
                       </div>

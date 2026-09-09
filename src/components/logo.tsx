@@ -1,7 +1,8 @@
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 export function LogoMark({ className }: { className?: string }) {
-  const uid = "k";
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   return (
     <svg
       viewBox="0 0 48 48"
@@ -33,7 +34,11 @@ export function LogoMark({ className }: { className?: string }) {
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <a href="#top" className={cn("group flex items-center gap-2.5", className)}>
+    <a
+      href="#top"
+      aria-label="Kardo — back to top"
+      className={cn("group flex items-center gap-2.5", className)}
+    >
       <LogoMark />
       <span className="font-heading hidden text-base font-bold text-light-text transition-colors group-hover:text-primary sm:inline sm:text-lg dark:text-dark-text">
         Kardo

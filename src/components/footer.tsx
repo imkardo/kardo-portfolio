@@ -27,9 +27,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
+            <h2 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
               {d.navigate}
-            </h4>
+            </h2>
             <ul className="space-y-1 text-xs sm:space-y-2 sm:text-sm">
               {navItems.slice(0, 4).map((item) => (
                 <li key={item.href}>
@@ -45,9 +45,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
+            <h2 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
               {d.practice}
-            </h4>
+            </h2>
             <ul className="space-y-1 text-xs text-light-muted sm:space-y-2 sm:text-sm dark:text-dark-muted">
               {stats.slice(0, 5).map((s) => (
                 <li key={s.label}>
@@ -58,9 +58,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
+            <h2 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
               {d.connect}
-            </h4>
+            </h2>
             <ul className="space-y-1 text-xs sm:space-y-2 sm:text-sm">
               <li>
                 <a
@@ -98,9 +98,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
+            <h2 className="font-heading mb-2 text-xs font-bold text-light-text sm:mb-4 sm:text-base dark:text-dark-text">
               {d.status}
-            </h4>
+            </h2>
             <ul className="space-y-1 text-xs sm:space-y-2 sm:text-sm">
               <li className="text-light-muted dark:text-dark-muted">{profile.location}</li>
               <li className="text-light-muted dark:text-dark-muted">{profile.availability}</li>

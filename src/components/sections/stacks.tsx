@@ -24,7 +24,9 @@ export function Stacks() {
               <h3 className="font-heading text-base font-bold text-light-text dark:text-dark-text">
                 {stack.name}
               </h3>
-              <p className="mt-2 text-sm text-light-muted dark:text-dark-muted">{stack.blurb}</p>
+              <p className="mt-2 line-clamp-3 text-sm text-light-muted dark:text-dark-muted">
+                {stack.blurb}
+              </p>
             </div>
           ))}
         </div>

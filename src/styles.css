@@ -39,6 +39,13 @@
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* Fixed pill navbar (~72-80px tall + top-4 offset) would otherwise
+       park section headings underneath it on anchor navigation. */
+    scroll-padding-top: 110px;
+  }
+
+  section[id] {
+    scroll-margin-top: 110px;
   }
 
   body {
@@ -251,9 +258,19 @@
   }
 
   .field:focus {
-    outline: none;
     border-color: var(--color-primary-light);
     box-shadow: 0 0 0 3px #3b82f633;
+  }
+
+  .field:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Native <select> popup renders with OS styling — force a dark
+     readable list in dark mode. */
+  .dark .field option {
+    background-color: #121218;
+    color: #f8fafc;
   }
 
   .dark .field {

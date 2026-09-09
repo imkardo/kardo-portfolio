@@ -74,7 +74,7 @@ export function Projects() {
                 <h3 className="font-heading mb-2 text-xl font-bold text-light-text dark:text-dark-text">
                   {project.title}
                 </h3>
-                <p className="mb-3 text-sm leading-relaxed text-light-muted dark:text-dark-muted">
+                <p className="mb-3 line-clamp-3 text-sm leading-relaxed text-light-muted dark:text-dark-muted">
                   {project.summary}
                 </p>
                 <p className="mb-4 text-sm font-medium text-primary">{project.outcome}</p>

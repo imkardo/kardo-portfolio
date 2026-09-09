@@ -10,7 +10,7 @@ export function About() {
   return (
     <section id="about" className="section-padding overflow-hidden bg-light-bg dark:bg-dark-bg">
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
+        <div className="min-w-0">
           <p className="mb-3 text-sm font-medium tracking-wide text-primary">{d.eyebrow}</p>
           <h2 className="font-heading mb-4 text-3xl font-bold text-light-text sm:text-4xl md:text-5xl dark:text-dark-text">
             {d.titleA} <span className="gradient-text">{d.titleB}</span>
@@ -34,11 +34,12 @@ export function About() {
                 {profile.availability}
               </div>
             </div>
-            <div className="glass-card px-4 py-3 text-sm">
+            <div className="glass-card min-w-0 px-4 py-3 text-sm">
               <div className="text-xs text-light-muted dark:text-dark-muted">{d.contact}</div>
               <a
                 href={`mailto:${profile.email}`}
-                className="font-heading font-semibold text-primary"
+                className="font-heading block truncate font-semibold text-primary"
+                title={profile.email}
               >
                 {profile.email}
               </a>
@@ -46,11 +47,11 @@ export function About() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-md overflow-hidden">
+        <div className="relative mx-auto w-full min-w-0 max-w-md overflow-hidden">
           <div className="absolute -top-8 -right-6 h-40 w-40 rounded-full bg-accent/20 blur-3xl" />
           <div className="absolute -bottom-8 -left-6 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
           <div className="glass-card relative overflow-hidden p-8">
-            <div className="mx-auto mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent p-[3px]">
+            <div className="mx-auto mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-primary to-accent p-[3px]">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-dark-card">
                 <span className="font-heading text-3xl font-bold text-dark-text">
                   {profile.initials}

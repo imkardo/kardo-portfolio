@@ -103,7 +103,7 @@ export function Contact() {
       <div className="absolute right-1/4 bottom-0 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
 
       <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
+        <div className="min-w-0">
           <h2 className="font-heading mb-4 text-3xl font-bold text-light-text sm:text-4xl md:text-5xl dark:text-dark-text">
             {d.titleA} <span className="gradient-text">{d.titleB}</span>
           </h2>
@@ -113,8 +113,12 @@ export function Contact() {
           <dl className="space-y-4 text-sm">
             <div>
               <dt className="text-light-muted dark:text-dark-muted">{d.email}</dt>
-              <dd>
-                <a href={`mailto:${profile.email}`} className="font-medium text-primary">
+              <dd className="min-w-0">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="block truncate font-medium text-primary"
+                  title={profile.email}
+                >
                   {profile.email}
                 </a>
               </dd>
@@ -130,7 +134,7 @@ export function Contact() {
           </dl>
         </div>
 
-        <form onSubmit={onSubmit} className="glass-card p-6 sm:p-8" noValidate>
+        <form onSubmit={onSubmit} className="glass-card min-w-0 p-6 sm:p-8" noValidate>
           {sent ? (
             <div className="flex min-h-64 flex-col items-center justify-center text-center">
               <p className="font-heading text-2xl font-bold text-light-text dark:text-dark-text">
@@ -158,7 +162,14 @@ export function Contact() {
                   <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
                     {d.name}
                   </span>
-                  <input name="name" className="field" autoComplete="name" required />
+                  <input
+                    name="name"
+                    className="field"
+                    autoComplete="name"
+                    required
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={error ? "contact-error" : undefined}
+                  />
                 </label>
                 <label className="block text-sm">
                   <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
@@ -170,6 +181,8 @@ export function Contact() {
                     className="field"
                     autoComplete="email"
                     required
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={error ? "contact-error" : undefined}
                   />
                 </label>
               </div>
@@ -203,10 +216,16 @@ export function Contact() {
                 <span className="mb-1.5 block text-light-muted dark:text-dark-muted">
                   {d.message}
                 </span>
-                <textarea name="message" className="field min-h-32" required />
+                <textarea
+                  name="message"
+                  className="field min-h-32"
+                  required
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error ? "contact-error" : undefined}
+                />
               </label>
               {error ? (
-                <p className="text-sm text-red-400" role="alert">
+                <p id="contact-error" className="text-sm text-red-400" role="alert">
                   {error}
                 </p>
               ) : null}

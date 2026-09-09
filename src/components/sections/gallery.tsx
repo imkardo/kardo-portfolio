@@ -73,6 +73,7 @@ export function Gallery() {
               key={entry.id}
               type="button"
               onClick={() => setActive(entry.id)}
+              aria-haspopup="dialog"
               className={`glass-card-hover overflow-hidden p-3 text-start ${i === 0 ? "sm:col-span-2" : ""}`}
             >
               <ProjectMockup
@@ -84,7 +85,9 @@ export function Gallery() {
                 <div className="font-heading font-semibold text-light-text dark:text-dark-text">
                   {entry.title}
                 </div>
-                <div className="text-sm text-light-muted dark:text-dark-muted">{entry.caption}</div>
+                <div className="line-clamp-2 text-sm text-light-muted dark:text-dark-muted">
+                  {entry.caption}
+                </div>
               </div>
             </button>
           ))}
@@ -93,7 +96,7 @@ export function Gallery() {
 
       {item ? (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="gallery-dialog-title"
@@ -101,7 +104,7 @@ export function Gallery() {
         >
           <div
             ref={dialogRef}
-            className="glass-card relative w-full max-w-3xl overflow-hidden p-4 sm:p-6"
+            className="glass-card relative my-auto max-h-[90vh] w-full max-w-3xl overflow-y-auto p-4 sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button

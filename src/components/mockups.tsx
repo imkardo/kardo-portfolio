@@ -8,7 +8,7 @@ function WindowChrome({ title }: { title: string }) {
       <span className="h-2 w-2 rounded-full bg-red-400/80" />
       <span className="h-2 w-2 rounded-full bg-amber-400/80" />
       <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
-      <span className="ml-2 truncate font-mono text-[10px] text-slate-400">{title}</span>
+      <span className="ms-2 truncate font-mono text-[10px] text-slate-400">{title}</span>
     </div>
   );
 }
@@ -24,6 +24,7 @@ export function ProjectMockup({
 }) {
   return (
     <div
+      dir="ltr"
       className={cn(
         "relative h-full min-h-40 overflow-hidden rounded-2xl bg-[#0b1220] text-left shadow-inner",
         className,
@@ -96,7 +97,7 @@ function SystemArt() {
           <div className="h-2 w-3/5 rounded bg-white/10" />
         </div>
       </div>
-      <div className="rounded-lg bg-gradient-to-br from-primary/20 to-transparent p-2 ring-1 ring-white/10">
+      <div className="rounded-lg bg-linear-to-br from-primary/20 to-transparent p-2 ring-1 ring-white/10">
         <div className="mb-2 h-2 w-12 rounded bg-accent/70" />
         <div className="h-16 rounded bg-white/5" />
       </div>
@@ -139,7 +140,7 @@ function MobileArt() {
     <div className="mx-auto h-full max-w-[140px] rounded-[1.4rem] bg-black/40 p-2 ring-1 ring-white/15">
       <div className="mb-2 h-1.5 w-10 mx-auto rounded-full bg-white/20" />
       <div className="space-y-2">
-        <div className="h-8 rounded-lg bg-gradient-to-r from-primary to-primary-light" />
+        <div className="h-8 rounded-lg bg-linear-to-r from-primary to-primary-light" />
         <div className="h-10 rounded-lg bg-white/10 ring-1 ring-white/10" />
         <div className="h-10 rounded-lg bg-white/10 ring-1 ring-white/10" />
       </div>

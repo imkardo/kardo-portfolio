@@ -48,7 +48,7 @@ export function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-sm text-light-muted transition-colors duration-200 hover:text-light-text dark:text-dark-muted dark:hover:text-dark-text"
+                  className="flex min-h-11 items-center py-2 text-sm text-light-muted transition-colors duration-200 hover:text-light-text dark:text-dark-muted dark:hover:text-dark-text"
                 >
                   {item.label}
                 </a>
@@ -108,7 +108,7 @@ export function Navbar() {
         </div>
 
         {open ? (
-          <div className="border-t border-gray-200/80 px-4 py-3 md:hidden dark:border-white/10">
+          <div className="max-h-[calc(100vh-6rem)] overflow-y-auto border-t border-gray-200/80 px-4 py-3 md:hidden dark:border-white/10">
             <div className="flex flex-col gap-1">
               {navItems.map((item) => (
                 <a
