@@ -49,3 +49,16 @@ create policy "admin read inquiries"
   on inquiries for select
   to authenticated
   using ((auth.jwt() ->> 'email') = 'kardoheydari.1387@gmail.com');
+
+-- Bound anonymous inserts: the contact form is open to the internet and
+-- client-side checks are bypassable, so cap field sizes in the database.
+-- Caps are generous (contact.tsx sends trimmed free text) and only reject
+-- junk floods, never legitimate messages.
+alter table inquiries drop constraint if exists inquiries_field_lengths;
+alter table inquiries add constraint inquiries_field_lengths check (
+  char_length(name) between 1 and 200
+  and char_length(email) between 3 and 254
+  and char_length(project) <= 200
+  and char_length(budget) <= 200
+  and char_length(message) between 1 and 5000
+);
